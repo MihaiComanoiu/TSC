@@ -1,0 +1,5 @@
+_info
+@_opt/
+_vmake
+test/
+test.v:Zone.Identifier
