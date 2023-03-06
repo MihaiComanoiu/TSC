@@ -3,3 +3,6 @@ _info
 _vmake
 test/
 test.v:Zone.Identifier
+TSCLab3/work/
+TSCLab3/vsim.wlf
+TSCLab3/modelsim.ini
