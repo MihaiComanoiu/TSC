@@ -52,7 +52,8 @@ module instr_register_test
       // later labs will replace this loop with iterating through a
       // scoreboard to determine which addresses were written and
       // the expected values to be read back
-      @(posedge clk) read_pointer = i;
+      //@(posedge clk) read_pointer = i;
+	  @(posedge clk) read_pointer = $unsigned($urandom())%32;
       @(negedge clk) print_results;
     end
 
@@ -77,7 +78,8 @@ module instr_register_test
     operand_a     <= $random(seed)%16;                 // between -15 and 15
     operand_b     <= $unsigned($random)%16;            // between 0 and 15
     opcode        <= opcode_t'($unsigned($random)%8);  // between 0 and 7, cast to opcode_t type
-    write_pointer <= temp++;
+    write_pointer <= $unsigned($urandom())%32;
+	//write_pointer <= temp++;
   endfunction: randomize_transaction
 
   function void print_transaction;
