@@ -3,21 +3,56 @@
  **********************************************************************/
 
 module top;
-  timeunit 1ns/1ns; //directiva de compilator
+  timeunit 1ns/1ns; // directiva de comp, care seteaza timpul si rezolutia de simulare
 
   // user-defined types are defined in instr_register_pkg.sv
   import instr_register_pkg::*;
 
-  logic clk; // stari 0,1,x-nu stiu daca e 0 sau 1,z-inalta impedanta
+  // clock variables
+  logic clk;  //4 stari, 0, 1, x(unsigned, unknown), z(nu e definita) pe 1 bit
   logic test_clk;
 
-  tb_ifc instrRegIf(clk, test_clk);
-  instr_register dut (instrRegIf);
-    // instantiate testbench and connect ports
-  instr_register_test test (instrRegIf);
-  
+  tb_ifc i_tb_ifc(clk, test_clk);
+
+  // interconnecting signals
+  // logic          load_en;   //load enable
+  // logic          reset_n;   //reset negative
+  // opcode_t       opcode;    //opcode_t tip de data definit de user
+  // operand_t      operand_a, operand_b;
+  // address_t      write_pointer, read_pointer;
+  // instruction_t  instruction_word;
+
+  // instantiate testbench and connect ports
+  instr_register_test test (
+    // .clk(test_clk),
+    // .load_en(load_en),
+    // .reset_n(reset_n),
+    // .operand_a(operand_a),
+    // .operand_b(operand_b),
+    // .opcode(opcode),
+    // .write_pointer(write_pointer),
+    // .read_pointer(read_pointer),
+    // .instruction_word(instruction_word)
+    i_tb_ifc
+   );
+
+  // instantiate design and connect ports
+  instr_register dut (
+    // .clk(clk),
+    // .load_en(load_en),
+    // .reset_n(reset_n),
+    // .operand_a(operand_a),
+    // .operand_b(operand_b),
+    // .opcode(opcode),
+    // .write_pointer(write_pointer),
+    // .read_pointer(read_pointer),
+    // .instruction_word(instruction_word)
+    i_tb_ifc
+   );
+
+  // clock oscillators
   initial begin
-    clk <= 0; // se atribuie 0
+    clk <= 0;
     forever #5  clk = ~clk;
   end
 
@@ -30,14 +65,5 @@ module top;
       #8ns test_clk = 1'b0;
     end
   end
-
- 
-
-  // instantiate design and connect ports
-  //module instr_register test instantiaza dut
-
-
-  // clock oscillators
-
 
 endmodule: top
